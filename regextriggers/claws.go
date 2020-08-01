@@ -14,14 +14,12 @@ var clawResponses = []string{
 	`(☞ ͡° ͜ʖ ͡°)☞ (‿ˠ‿)`,
 }
 
-func GetClawTrigger() hbot.Trigger {
-	return hbot.Trigger{
-		func(b *hbot.Bot, m *hbot.Message) bool {
-			return standardizedRegexTrigger(b, m, clawRegex, 4)
-		},
-		func(b *hbot.Bot, m *hbot.Message) bool {
-			b.Reply(m, selectRandomResponse(clawResponses))
-			return false
-		},
-	}
+var ClawTrigger = hbot.Trigger{
+	func(b *hbot.Bot, m *hbot.Message) bool {
+		return standardizedRegexTrigger(b, m, clawRegex, 4)
+	},
+	func(b *hbot.Bot, m *hbot.Message) bool {
+		b.Reply(m, selectRandomResponse(clawResponses))
+		return false
+	},
 }

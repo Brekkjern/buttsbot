@@ -24,18 +24,16 @@ var trumpTwitterResponses = []string{
 	"Bumbledore tweeting again?",
 }
 
-func GetTrumpTrigger() hbot.Trigger {
-	return hbot.Trigger{
-		func(b *hbot.Bot, m *hbot.Message) bool {
-			return standardizedRegexTrigger(b, m, trumpRegex, 8)
-		},
-		func(b *hbot.Bot, m *hbot.Message) bool {
-			if trumpTwitterRegex.MatchString(m.Content) {
-				b.Reply(m, selectRandomResponse(trumpTwitterResponses))
-			} else {
-				b.Reply(m, selectRandomResponse(trumpResponses))
-			}
-			return false
-		},
-	}
+var TrumpTrigger = hbot.Trigger{
+	func(b *hbot.Bot, m *hbot.Message) bool {
+		return standardizedRegexTrigger(b, m, trumpRegex, 8)
+	},
+	func(b *hbot.Bot, m *hbot.Message) bool {
+		if trumpTwitterRegex.MatchString(m.Content) {
+			b.Reply(m, selectRandomResponse(trumpTwitterResponses))
+		} else {
+			b.Reply(m, selectRandomResponse(trumpResponses))
+		}
+		return false
+	},
 }
