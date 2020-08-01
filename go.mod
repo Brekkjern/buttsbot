@@ -1,4 +1,4 @@
-module buttsbot
+module github.com/brekkjern/buttsbot
 
 go 1.14
 
