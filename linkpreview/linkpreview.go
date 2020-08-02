@@ -21,7 +21,10 @@ var LinkPreviewTrigger = hbot.Trigger{
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		r := linkPreviewRegex.FindAllString(m.Content, -1)
-		for p := range r[0:max(len(r), 3)] {
+		for p := range r {
+			if p > 2 {
+				break
+			}
 			pageData := fetchContents(r[p])
 			if len(pageData) == 0 {
 				return false
