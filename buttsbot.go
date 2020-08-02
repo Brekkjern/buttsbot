@@ -40,7 +40,7 @@ func main() {
 
 	mybot.Logger.SetHandler(logHandler)
 	log.Println("Adding triggers...")
-	mybot.AddTrigger(regextriggers.ButtTrigger)
+	mybot.AddTrigger(regextriggers.ButtcoinTrigger)
 	mybot.AddTrigger(regextriggers.HarmfulTrigger)
 	mybot.AddTrigger(regextriggers.TrumpTrigger)
 	mybot.AddTrigger(regextriggers.ClawTrigger)

@@ -16,8 +16,8 @@ func standardizedRegexTrigger(
 	}
 	match := rgx.MatchString(m.Content)
 
-	if !match && !randomizeChance(chance) {
-		return false
+	if match && randomizeChance(chance) {
+		return true
 	}
-	return true
+	return false
 }

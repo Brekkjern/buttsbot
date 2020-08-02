@@ -8,7 +8,7 @@ import (
 
 var bitcoinRegex = regexp.MustCompile("(?mi)bitcoin")
 
-var ButtTrigger = hbot.Trigger{
+var ButtcoinTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		return standardizedRegexTrigger(b, m, bitcoinRegex, 3)
 	},
