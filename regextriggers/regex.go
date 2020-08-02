@@ -11,7 +11,7 @@ func standardizedRegexTrigger(
 	m *hbot.Message,
 	rgx *regexp.Regexp,
 	chance int) bool {
-	if m.From == b.Nick {
+	if m.From == b.Nick || m.To == b.Nick {
 		return false
 	}
 	match := rgx.MatchString(m.Content)
