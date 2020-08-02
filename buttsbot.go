@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	logHandler := logger.LvlFilterHandler(logger.LvlDebug, logger.StdoutHandler)
+	logHandler := logger.LvlFilterHandler(logger.LvlInfo, logger.StdoutHandler)
 	log.Println("Initializing buttsbot...")
 
 	nick := flag.String("nick", "buttsbot", "IRC nickname")
