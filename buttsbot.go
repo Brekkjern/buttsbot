@@ -5,6 +5,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/brekkjern/buttsbot/linkpreview"
 	"github.com/brekkjern/buttsbot/regextriggers"
 
 	hbot "github.com/whyrusleeping/hellabot"
@@ -44,6 +45,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.HarmfulTrigger)
 	mybot.AddTrigger(regextriggers.TrumpTrigger)
 	mybot.AddTrigger(regextriggers.ClawTrigger)
+	mybot.AddTrigger(linkpreview.LinkPreviewTrigger)
 	log.Println("Attempting to connect to IRC network...")
 	mybot.Run()
 }
