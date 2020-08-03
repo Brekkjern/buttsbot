@@ -82,7 +82,7 @@ func getTitle(s string) string {
 	}
 
 	title := s[titleStartIndex:titleEndIndex]
-	title = strings.Replace(title, "\n", "", -1)
+	title = strings.Replace(title, "\n", " - ", -1)
 	title = strings.TrimSpace(title)
 
 	if len(title) > 80 {
