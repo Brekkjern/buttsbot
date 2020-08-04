@@ -1,6 +1,7 @@
 package linkpreview
 
 import (
+	"html"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -9,7 +10,11 @@ import (
 	"time"
 
 	hbot "github.com/whyrusleeping/hellabot"
+
+	logger "gopkg.in/inconshreveable/log15.v2"
 )
+
+var lgr = logger.Root()
 
 var linkPreviewRegex = regexp.MustCompile(`(?mi)https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`)
 var LinkPreviewTrigger = hbot.Trigger{
@@ -21,17 +26,22 @@ var LinkPreviewTrigger = hbot.Trigger{
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		r := linkPreviewRegex.FindAllString(m.Content, -1)
+		lgr.Debug("Found links for linkpreview", "url", r)
 		for p := range r {
 			if p > 2 {
 				break
 			}
 			pageData := fetchContents(r[p])
 			if len(pageData) == 0 {
+				lgr.Debug("No content from url", "url", p)
 				return false
 			}
 			title := getTitle(pageData)
 			if len(title) >= 1 {
+				lgr.Info("Found title for URL", "title", title, "url", p)
 				b.Reply(m, title)
+			} else {
+				lgr.Info("Found no title for URL", "url", p)
 			}
 		}
 		return false
@@ -82,6 +92,7 @@ func getTitle(s string) string {
 	}
 
 	title := s[titleStartIndex:titleEndIndex]
+	title = html.UnescapeString(title)
 	title = strings.Replace(title, "\n", " - ", -1)
 	title = strings.TrimSpace(title)
 
