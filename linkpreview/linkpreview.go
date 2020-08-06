@@ -19,10 +19,15 @@ var lgr = logger.Root()
 var linkPreviewRegex = regexp.MustCompile(`(?mi)https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`)
 var LinkPreviewTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {
+		if m.Command == "PART" || m.Command == "QUIT" {
+			return false
+		}
 		if m.From == b.Nick || m.To == b.Nick {
 			return false
 		}
+
 		return linkPreviewRegex.MatchString(m.Content)
+
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		r := linkPreviewRegex.FindAllString(m.Content, -1)
