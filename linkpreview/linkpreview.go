@@ -3,7 +3,6 @@ package linkpreview
 import (
 	"html"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"regexp"
 	"strings"
@@ -62,22 +61,28 @@ func max(x, y int) int {
 
 func fetchContents(url string) string {
 	client := &http.Client{
-		Timeout: 5 * time.Second,
+		Timeout: 7 * time.Second,
 	}
 
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Fatal(err)
+		lgr.Error("Failed to create new request", "error", err)
+		return ""
 	}
 	request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Buttsbot link-previews")
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatal(err)
+		lgr.Info("Failed to fetch website", "error", err)
+		return ""
 	}
 	defer resp.Body.Close()
 
 	respBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		lgr.Info("Failed to read response body", "error", err)
+		return ""
+	}
 	pageContent := string(respBytes)
 
 	return pageContent
