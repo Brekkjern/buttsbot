@@ -22,6 +22,7 @@ var trumpTwitterResponses = []string{
 	"What's Adolf Twitler been up to now?",
 	"Boss Tweet is at it again, huh?",
 	"Bumbledore tweeting again?",
+	"News from the porcelain office?",
 }
 
 var TrumpTrigger = hbot.Trigger{
