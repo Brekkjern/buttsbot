@@ -35,3 +35,9 @@ jobs:
 
     - name: Test
       run: go test -v .
+  
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: buttsbot
+        path: buttsbot
