@@ -14,6 +14,7 @@ import (
 )
 
 var lgr = logger.Root()
+var maxTitleLength = 140
 
 var linkPreviewRegex = regexp.MustCompile(`(?mi)https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`)
 var LinkPreviewTrigger = hbot.Trigger{
@@ -106,8 +107,8 @@ func getTitle(s string) string {
 	title = strings.Replace(title, "\n", " - ", -1)
 	title = strings.TrimSpace(title)
 
-	if len(title) > 80 {
-		title = title[:80] + "..."
+	if len(title) > maxTitleLength {
+		title = title[:maxTitleLength] + "..."
 	}
 
 	return title
