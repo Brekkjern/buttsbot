@@ -6,8 +6,8 @@ import (
 	hbot "github.com/whyrusleeping/hellabot"
 )
 
-var fpRegex = regexp.MustCompile(`(?m)FP`)
-var oopRegex = regexp.MustCompile(`(?m)OOP`)
+var fpRegex = regexp.MustCompile(`(?m)(FP|[Ff]unctional [Pp]rogramming)`)
+var oopRegex = regexp.MustCompile(`(?m)(OOP|[Oo]bject [Oo]riented)`)
 
 var FPVsOOPTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {

@@ -17,7 +17,7 @@ var bigoResponses = []string{
 
 var BigOTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {
-		return standardizedRegexTrigger(b, m, bigoRegex, 10)
+		return standardizedRegexTrigger(b, m, bigoRegex, 3)
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, selectRandomResponse(bigoResponses))

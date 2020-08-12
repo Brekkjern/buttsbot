@@ -27,7 +27,7 @@ var trumpTwitterResponses = []string{
 
 var TrumpTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {
-		return standardizedRegexTrigger(b, m, trumpRegex, 8)
+		return standardizedRegexTrigger(b, m, trumpRegex, 6)
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		if trumpTwitterRegex.MatchString(m.Content) {

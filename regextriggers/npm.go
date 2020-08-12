@@ -14,7 +14,7 @@ var npmResponses = []string{
 
 var NPMTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {
-		return standardizedRegexTrigger(b, m, npmRegex, 60)
+		return standardizedRegexTrigger(b, m, npmRegex, 15)
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, selectRandomResponse(npmResponses))
