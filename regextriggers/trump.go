@@ -17,6 +17,7 @@ var trumpResponses = []string{
 	"Has the Hair Apparent made his wall yet?",
 	"Hair Hitler having a bad hair day today?",
 	"Don't say his name! It's He-Who-Must-Not-Be-Named around here!",
+	"🍊🤵👎",
 }
 var trumpTwitterResponses = []string{
 	"What's Adolf Twitler been up to now?",
