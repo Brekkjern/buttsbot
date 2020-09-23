@@ -13,7 +13,7 @@ var stallmanResponses = []string{
 
 var StallmanTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {
-		return standardizedRegexTrigger(b, m, stallmanRegex, 20)
+		return standardizedRegexTrigger(b, m, stallmanRegex, 25)
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, selectRandomResponse(stallmanResponses))
