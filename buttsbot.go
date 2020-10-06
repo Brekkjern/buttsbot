@@ -48,6 +48,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.FPVsOOPTrigger)
 	mybot.AddTrigger(regextriggers.StallmanTrigger)
 	mybot.AddTrigger(regextriggers.DankTrigger)
+	mybot.AddTrigger(regextriggers.FreedomTrigger)
 	mybot.AddTrigger(linkpreview.LinkPreviewTrigger)
 	log.Println("Attempting to connect to IRC network...")
 	mybot.Run()
