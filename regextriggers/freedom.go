@@ -13,7 +13,7 @@ var FreedomTrigger = hbot.Trigger{
 		return standardizedRegexTrigger(b, m, freedomRegex, 3)
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
-		b.Action(m.Name, "SCREECHES!")
+		b.Action(m.To, "SCREECHES!")
 		return false
 	},
 }
