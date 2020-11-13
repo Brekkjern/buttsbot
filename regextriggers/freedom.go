@@ -6,7 +6,7 @@ import (
 	hbot "github.com/whyrusleeping/hellabot"
 )
 
-var freedomRegex = regexp.MustCompile("(?mi)FREED(OM|UMB)")
+var freedomRegex = regexp.MustCompile("(?m)FREED(OM|UMB)")
 
 var FreedomTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {
