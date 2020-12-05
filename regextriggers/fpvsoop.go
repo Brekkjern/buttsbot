@@ -16,7 +16,7 @@ var FPVsOOPTrigger = hbot.Trigger{
 		}
 		match := fpRegex.MatchString(m.Content) != oopRegex.MatchString(m.Content)
 
-		if match && randomizeChance(6) {
+		if match && randomizeChance(18) {
 			return true
 		}
 		return false
