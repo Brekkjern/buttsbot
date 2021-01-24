@@ -4,6 +4,7 @@ import (
 	"html"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"regexp"
 	"strings"
 	"time"
@@ -35,6 +36,25 @@ var LinkPreviewTrigger = hbot.Trigger{
 		for p := range r {
 			if p > 2 {
 				break
+			}
+			parsedUrl, _ := url.Parse(r[p])
+			if parsedUrl.Host == "twitter.com" {
+				reply, err := previewTwitterLink(parsedUrl)
+				if err == nil {
+					b.Reply(m, reply)
+				} else {
+					lgr.Error("previewTwitterLink failed", "url", r[p], "error", err)
+				}
+				return false
+			}
+			if isYoutube(parsedUrl){
+				reply, err := previewYoutubeLink(parsedUrl)
+				if err == nil {
+					b.Reply(m, reply)
+				} else {
+					lgr.Error("previewYoutubeLink failed", "url", r[p], "error", err)
+				}
+				return false
 			}
 			pageData := fetchContents(r[p])
 			if len(pageData) == 0 {
