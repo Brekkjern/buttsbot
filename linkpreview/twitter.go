@@ -10,7 +10,7 @@ var twitterFrontend = "nitter.net"
 
 func previewTwitterLink(loc *url.URL) (string, error) {
 	var preview = "Twitter - "
-	if rand.Intn(2) == 0 {
+	if rand.Intn(4) == 1 {
 		preview = "Twatter - "
 	}
 	if loc.Host != "twitter.com" {
