@@ -45,6 +45,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.HarmfulTrigger)
 	mybot.AddTrigger(regextriggers.ClawTrigger)
 	mybot.AddTrigger(regextriggers.FPVsOOPTrigger)
+	mybot.AddTrigger(regextriggers.RiirTrigger)
 	mybot.AddTrigger(regextriggers.StallmanTrigger)
 	mybot.AddTrigger(regextriggers.DankTrigger)
 	mybot.AddTrigger(regextriggers.FreedomTrigger)
