@@ -20,9 +20,12 @@ func main() {
 	nick := flag.String("nick", "buttsbot", "IRC nickname")
 	connectionString := flag.String("server", "", "Connection string to IRC network")
 	channels := flag.String("channels", "", "IRC channels to connect to.")
+	twitterAPIToken := flag.String("twittertoken", "", "Twitter API bearer token")
 	var password string
 	flag.StringVar(&password, "password", "", "Password for nickserv")
 	flag.Parse()
+
+	linkpreview.TwitterAPIToken = *twitterAPIToken
 
 	channelList := strings.Split(*channels, ":")
 	options := func(bot *hbot.Bot) {

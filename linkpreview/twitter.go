@@ -1,12 +1,27 @@
 package linkpreview
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"net/http"
 	"net/url"
+	"regexp"
+	"time"
 )
 
+type response struct {
+	Data []struct {
+		ID   string `json:"id"`
+		Text string `json:"text"`
+	} `json:"data"`
+}
+
+var TwitterAPIToken string
 var twitterFrontend = "nitter.net"
+var twitterRegex = regexp.MustCompile(`(?mi)(\w+)/status/(\d+)`)
 
 func previewTwitterLink(loc *url.URL) (string, error) {
 	var preview = "Twitter - "
@@ -16,15 +31,53 @@ func previewTwitterLink(loc *url.URL) (string, error) {
 	if loc.Host != "twitter.com" {
 		return "", errors.New("previewTwitterLink() called for non-twitter link")
 	}
-	altLocation := loc
-	altLocation.Host = twitterFrontend
-	preview += altLocation.String()
-	pageData := fetchContents(altLocation.String())
-	if len(pageData) > 0 {
-		title := getTitle(pageData)
-		if len(title) > 0 {
-			preview += " - " + title
-		}
+
+	m := twitterRegex.FindStringSubmatch(loc.Path)
+	fmt.Println("Match 0: " + m[0])
+	fmt.Println("Match 1: " + m[1])
+	fmt.Println("Match 2: " + m[2])
+
+	client := &http.Client{
+		Timeout: 2 * time.Second,
 	}
+
+	twtr, err := url.Parse("https://api.twitter.com/2/tweets")
+	if err != nil {
+		return "", errors.New("previewTwitterLink() has a malformed API url")
+	}
+	vals := url.Values{}
+	vals.Add("tweet.fields", "text")
+	vals.Add("ids", m[2])
+	twtr.RawQuery = vals.Encode()
+
+	req, err := http.NewRequest("GET", twtr.String(), nil)
+	req.Header.Add("Authorization", "Bearer "+TwitterAPIToken)
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/json")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Buttsbot link-previews")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", errors.New("previewTwitterLink() failed to fetch website")
+	}
+
+	defer resp.Body.Close()
+	pdata, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", errors.New("previewTwitterLink() got no valid data from API")
+	}
+	fmt.Println(string(pdata))
+
+	var responseData response
+	json.Unmarshal(pdata, &responseData)
+	fmt.Printf("API Response as struct %+v\n", responseData)
+
+	preview += m[1] + " - "
+	preview += responseData.Data[0].Text
+
+	if len(preview) > 150 {
+		preview = string([]rune(preview)[:147]) + "..."
+	}
+
 	return preview, nil
 }
