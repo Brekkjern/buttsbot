@@ -16,6 +16,7 @@ var posixResponses = []string{
 	"\"Give me your code! I want ALL your code in my repository!\" Richard exclaimed.",
 	"\"Ohhhh! I'm going to tar this up later!\" Richard exclaimed. Eric pulled out, still dripping with his source.",
 	"Richard swallowed, trying not to cry. \"I'm not willing to keep love like this proprietary.\"",
+	"\"Join us now... Eric... and share the hardware... my repository is open...\" Richard panted, looking at Eric's throbbing phallus.",
 }
 
 var PosixTrigger = hbot.Trigger{

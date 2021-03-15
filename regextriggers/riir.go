@@ -6,7 +6,7 @@ import (
 	hbot "github.com/whyrusleeping/hellabot"
 )
 
-var riirRegex = regexp.MustCompile(`(?mi)(riir|rust)`)
+var riirRegex = regexp.MustCompile(`(?mi)(\b(riir|rust(aceans)?)\b)`)
 var riirResponses = []string{
 	">The rusting will continue until morale improves or memory stops leaking",
 	">#rust is being boycotted because the ircd has yet to be rewritten in rust",
