@@ -14,11 +14,16 @@ var riirResponses = []string{
 	"That's nice, but have you considered writing it in HTML instead of Rust?",
 	">I told a coworker about lobste.rs, and futilely tried to convince him that it isn't HN for Rust",
 	">unsafe {} sex can be dangerous",
+	">And maybe, just maybe; in those brief, wonderful moments of ecstasy — you might gain additional pleasure knowing in your heart, mind and body that your device is using a safe and fearlessly concurrent language.",
+	">Then I found Rust, and now I'm going to either die of starvation or make my next job writing Rust. I just can't stand to work in this industry anymore unless I use Rust. I don't understand how we got here.",
+	"🦀",
+	">When I started learning Rust in earnest in 2018, I thought this was a fluke. It is just the butterflies you get when you think you fall in love, I told myself.",
+	">Rust is mentioned in passing in NYT article",
 }
 
 var RiirTrigger = hbot.Trigger{
 	func(b *hbot.Bot, m *hbot.Message) bool {
-		return standardizedRegexTrigger(b, m, riirRegex, 10)
+		return standardizedRegexTrigger(b, m, riirRegex, 15)
 	},
 	func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, selectRandomResponse(riirResponses))

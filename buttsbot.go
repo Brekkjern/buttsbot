@@ -48,6 +48,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.HarmfulTrigger)
 	mybot.AddTrigger(regextriggers.PosixTrigger)
 	mybot.AddTrigger(regextriggers.ClawTrigger)
+	mybot.AddTrigger(regextriggers.CmdTrigger)
 	mybot.AddTrigger(regextriggers.FPVsOOPTrigger)
 	mybot.AddTrigger(regextriggers.RiirTrigger)
 	mybot.AddTrigger(regextriggers.StallmanTrigger)
