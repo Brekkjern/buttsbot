@@ -66,16 +66,18 @@ func previewTwitterLink(loc *url.URL) (string, error) {
 	if err != nil {
 		return "", errors.New("previewTwitterLink() got no valid data from API")
 	}
-	fmt.Println(string(pdata))
 
 	var responseData response
 	json.Unmarshal(pdata, &responseData)
-	fmt.Printf("API Response as struct %+v\n", responseData)
 
 	preview += m[1] + " - "
-	preview += responseData.Data[0].Text
+	if responseData.Data == nil {
+		return "", errors.New("previewTwitterLink() got no data from the API")
+	}
+	var n = regexp.MustCompile(`\n`)
+	preview += n.ReplaceAllString(responseData.Data[0].Text, " ")
 
-	if len(preview) > 150 {
+	if len(preview) > 200 {
 		preview = string([]rune(preview)[:147]) + "..."
 	}
 
