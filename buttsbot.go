@@ -36,7 +36,6 @@ func main() {
 			bot.Password = password
 		}
 		bot.SSL = *ssl
-
 		bot.HijackSession = true
 	}
 	log.Println("Initializing bot system...")
@@ -44,6 +43,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	mybot.Logger.SetHandler(logHandler)
 
 	mybot.Logger.SetHandler(logHandler)
 	log.Println("Adding triggers...")
