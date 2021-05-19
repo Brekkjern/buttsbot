@@ -43,10 +43,22 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	mybot.Logger.SetHandler(logHandler)
 
 	mybot.Logger.SetHandler(logHandler)
 	log.Println("Adding triggers...")
+
+	var messageLogger = hbot.Trigger{
+		func(b *hbot.Bot, m *hbot.Message) bool {
+			return m.To == b.Nick
+		},
+		func(b *hbot.Bot, m *hbot.Message) bool {
+			log.Println("Message to bot:", "From", m.From, "Content", m.Content)
+			return false
+		},
+	}
+
+	mybot.AddTrigger(messageLogger)
+
 	mybot.AddTrigger(regextriggers.ButtcoinTrigger)
 	mybot.AddTrigger(regextriggers.HarmfulTrigger)
 	mybot.AddTrigger(regextriggers.PosixTrigger)
