@@ -36,7 +36,7 @@ func main() {
 			bot.Password = password
 		}
 		bot.SSL = *ssl
-		bot.HijackSession = true
+		bot.HijackSession = false
 	}
 	log.Println("Initializing bot system...")
 	mybot, err := hbot.NewBot(*connectionString, *nick, options)
