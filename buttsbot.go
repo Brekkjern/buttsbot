@@ -23,6 +23,7 @@ func main() {
 	twitterAPIToken := flag.String("twittertoken", "", "Twitter API bearer token")
 	var password string
 	flag.StringVar(&password, "password", "", "Password for nickserv")
+	ssl := flag.Bool("ssl", false, "Enable SSL for connection")
 	flag.Parse()
 
 	linkpreview.TwitterAPIToken = *twitterAPIToken
@@ -34,6 +35,8 @@ func main() {
 			bot.SASL = true
 			bot.Password = password
 		}
+		bot.SSL = *ssl
+
 		bot.HijackSession = true
 	}
 	log.Println("Initializing bot system...")
