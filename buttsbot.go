@@ -59,6 +59,7 @@ func main() {
 
 	mybot.AddTrigger(messageLogger)
 
+	mybot.AddTrigger(regextriggers.HlangTrigger)
 	mybot.AddTrigger(regextriggers.ButtcoinTrigger)
 	mybot.AddTrigger(regextriggers.HarmfulTrigger)
 	mybot.AddTrigger(regextriggers.PosixTrigger)
