@@ -19,7 +19,7 @@ var maxTitleLength = 140
 
 var linkPreviewRegex = regexp.MustCompile(`(?mi)https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`)
 var LinkPreviewTrigger = hbot.Trigger{
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
 		if m.Command == "PART" || m.Command == "QUIT" {
 			return false
 		}
@@ -30,7 +30,7 @@ var LinkPreviewTrigger = hbot.Trigger{
 		return linkPreviewRegex.MatchString(m.Content)
 
 	},
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		r := linkPreviewRegex.FindAllString(m.Content, -1)
 		lgr.Debug("Found links for linkpreview", "url", r)
 		for p := range r {
