@@ -9,10 +9,10 @@ import (
 var freedomRegex = regexp.MustCompile("(?m)FREED(OM|UMB)")
 
 var FreedomTrigger = hbot.Trigger{
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
 		return standardizedRegexTrigger(b, m, freedomRegex, 3)
 	},
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Action(m.To, "SCREECHES!")
 		return false
 	},

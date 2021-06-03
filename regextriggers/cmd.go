@@ -13,10 +13,10 @@ var cmdResponses = []string{
 }
 
 var CmdTrigger = hbot.Trigger{
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
 		return standardizedRegexTrigger(b, m, cmdRegex, 10)
 	},
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, selectRandomResponse(cmdResponses))
 		return false
 	},

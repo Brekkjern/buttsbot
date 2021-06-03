@@ -10,7 +10,7 @@ var fpRegex = regexp.MustCompile(`(?m)\b(FP|[Ff]unctional [Pp]rogramming)\b`)
 var oopRegex = regexp.MustCompile(`(?m)\b(OOP|[Oo]bject [Oo]riented)\b`)
 
 var FPVsOOPTrigger = hbot.Trigger{
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
 		if m.From == b.Nick || m.To == b.Nick {
 			return false
 		}
@@ -21,7 +21,7 @@ var FPVsOOPTrigger = hbot.Trigger{
 		}
 		return false
 	},
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		if fpRegex.MatchString(m.Content) {
 			b.Reply(m, "'Foolish pupil - objects are merely a poor man's closures!' - https://wiki.c2.com/?ClosuresAndObjectsAreEquivalent")
 		} else {

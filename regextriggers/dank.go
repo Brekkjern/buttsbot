@@ -13,10 +13,10 @@ var dankResponses = []string{
 }
 
 var DankTrigger = hbot.Trigger{
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
 		return standardizedRegexTrigger(b, m, dankRegex, 3)
 	},
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		match := dankRegex.FindString(m.Content)
 		if match == "69" {
 			b.Reply(m, "nice")

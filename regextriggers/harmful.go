@@ -9,10 +9,10 @@ import (
 var harmfulRegex = regexp.MustCompile("(?mi)considered harmful")
 
 var HarmfulTrigger = hbot.Trigger{
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
 		return standardizedRegexTrigger(b, m, harmfulRegex, 4)
 	},
-	func(b *hbot.Bot, m *hbot.Message) bool {
+	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, "Your FACE is considered harmful!")
 		return false
 	},
