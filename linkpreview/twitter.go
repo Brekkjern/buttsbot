@@ -20,7 +20,6 @@ type response struct {
 }
 
 var TwitterAPIToken string
-var twitterFrontend = "nitter.net"
 var twitterRegex = regexp.MustCompile(`(?mi)(\w+)/status/(\d+)`)
 
 func previewTwitterLink(loc *url.URL) (string, error) {
@@ -28,7 +27,7 @@ func previewTwitterLink(loc *url.URL) (string, error) {
 	if rand.Intn(4) == 1 {
 		preview = "Twatter - "
 	}
-	if loc.Host != "twitter.com" {
+	if loc.Host != "twitter.com" && loc.Host != "mobile.twitter.com" {
 		return "", errors.New("previewTwitterLink() called for non-twitter link")
 	}
 

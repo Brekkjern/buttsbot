@@ -38,7 +38,7 @@ var LinkPreviewTrigger = hbot.Trigger{
 				break
 			}
 			parsedUrl, _ := url.Parse(r[p])
-			if parsedUrl.Host == "twitter.com" {
+			if parsedUrl.Host == "twitter.com" || parsedUrl.Host == "mobile.twitter.com" {
 				reply, err := previewTwitterLink(parsedUrl)
 				if err == nil {
 					b.Reply(m, reply)
