@@ -47,7 +47,7 @@ var LinkPreviewTrigger = hbot.Trigger{
 				}
 				return false
 			}
-			if isYoutube(parsedUrl){
+			if isYoutube(parsedUrl) {
 				reply, err := previewYoutubeLink(parsedUrl)
 				if err == nil {
 					b.Reply(m, reply)

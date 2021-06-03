@@ -5,8 +5,6 @@ import (
 	"net/url"
 )
 
-var youtubeFrontend = "ytprivate.com"
-
 func isYoutube(loc *url.URL) bool {
 	if loc.Host == "youtube.com" {
 		return true
@@ -22,18 +20,16 @@ func isYoutube(loc *url.URL) bool {
 
 func previewYoutubeLink(loc *url.URL) (string, error) {
 	var preview = "Youtube - "
-	if !isYoutube(loc){
+	if !isYoutube(loc) {
 		return "", errors.New("previewYoutubeLink() called for non-youtube link")
 	}
-	altLocation := loc
-	altLocation.Host = youtubeFrontend
-	pageData := fetchContents(altLocation.String())
+	pageData := fetchContents(loc.String())
 	if len(pageData) > 0 {
 		title := getTitle(pageData)
 		if len(title) > 0 {
 			preview = title
 		}
 	}
-	preview += " - " + altLocation.String()
+	preview += " - " + loc.String()
 	return preview, nil
 }
