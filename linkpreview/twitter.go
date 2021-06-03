@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"html"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -73,6 +74,7 @@ func previewTwitterLink(loc *url.URL) (string, error) {
 	if responseData.Data == nil {
 		return "", errors.New("previewTwitterLink() got no data from the API")
 	}
+	preview = html.UnescapeString(preview)
 	var n = regexp.MustCompile(`\n`)
 	preview += n.ReplaceAllString(responseData.Data[0].Text, " ")
 

@@ -2,6 +2,7 @@ package linkpreview
 
 import (
 	"errors"
+	"html"
 	"net/url"
 )
 
@@ -30,6 +31,7 @@ func previewYoutubeLink(loc *url.URL) (string, error) {
 			preview = title
 		}
 	}
+	preview = html.UnescapeString(preview)
 	preview += " - " + loc.String()
 	return preview, nil
 }
