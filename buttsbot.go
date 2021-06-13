@@ -48,10 +48,10 @@ func main() {
 	log.Println("Adding triggers...")
 
 	var messageLogger = hbot.Trigger{
-		func(b *hbot.Bot, m *hbot.Message) bool {
+		Condition: func(b *hbot.Bot, m *hbot.Message) bool {
 			return m.To == b.Nick
 		},
-		func(b *hbot.Bot, m *hbot.Message) bool {
+		Action: func(b *hbot.Bot, m *hbot.Message) bool {
 			log.Println("Message to bot:", "From", m.From, "Content", m.Content)
 			return false
 		},
