@@ -14,7 +14,7 @@ var freenodeResponses = []string{
 
 var FreenodeTrigger = hbot.Trigger{
 	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
-		return standardizedRegexTrigger(b, m, freenodeRegex, 10)
+		return standardizedRegexTrigger(b, m, freenodeRegex, 20)
 	},
 	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, selectRandomResponse(freenodeResponses))
