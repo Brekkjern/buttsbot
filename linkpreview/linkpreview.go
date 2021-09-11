@@ -63,10 +63,10 @@ var LinkPreviewTrigger = hbot.Trigger{
 			}
 			title := getTitle(pageData)
 			if len(title) >= 1 {
-				lgr.Info("Found title for URL", "title", title, "url", p)
+				lgr.Info("Found title for URL", "title", title, "url", r[p])
 				b.Reply(m, title)
 			} else {
-				lgr.Info("Found no title for URL", "url", p)
+				lgr.Info("Found no title for URL", "url", r[p])
 			}
 		}
 		return false
