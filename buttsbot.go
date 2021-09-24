@@ -64,6 +64,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.ClawTrigger)
 	mybot.AddTrigger(regextriggers.CmdTrigger)
 	mybot.AddTrigger(regextriggers.DankTrigger)
+	mybot.AddTrigger(regextriggers.DevelopersTrigger)
 	mybot.AddTrigger(regextriggers.FPVsOOPTrigger)
 	mybot.AddTrigger(regextriggers.FreedomTrigger)
 	mybot.AddTrigger(regextriggers.FreenodeTrigger)
