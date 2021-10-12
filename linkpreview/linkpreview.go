@@ -58,7 +58,7 @@ var LinkPreviewTrigger = hbot.Trigger{
 			}
 			pageData := fetchContents(r[p])
 			if len(pageData) == 0 {
-				lgr.Debug("No content from url", "url", p)
+				lgr.Debug("No content from url", "url", r[p])
 				return false
 			}
 			title := getTitle(pageData)

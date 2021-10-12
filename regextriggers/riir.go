@@ -19,6 +19,7 @@ var riirResponses = []string{
 	"🦀",
 	">When I started learning Rust in earnest in 2018, I thought this was a fluke. It is just the butterflies you get when you think you fall in love, I told myself.",
 	">Rust is mentioned in passing in NYT article",
+	"They say if you lock the bathroom, turn off the light, face the mirror, and say, \"C++! C++! C++!\" a Rust developer will reach through to mirror to grab you.",
 }
 
 var RiirTrigger = hbot.Trigger{
