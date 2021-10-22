@@ -7,7 +7,6 @@ import (
 )
 
 var trumpRegex = regexp.MustCompile("(?mi)Trump")
-var trumpTwitterRegex = regexp.MustCompile("(?mi)twitter")
 var trumpResponses = []string{
 	"That's Cheeto Benito to you!",
 	"Trump? Agent Orange is more like it.",
@@ -31,11 +30,7 @@ var TrumpTrigger = hbot.Trigger{
 		return standardizedRegexTrigger(b, m, trumpRegex, 25)
 	},
 	Action: func(b *hbot.Bot, m *hbot.Message) bool {
-		if trumpTwitterRegex.MatchString(m.Content) {
-			b.Reply(m, selectRandomResponse(trumpTwitterResponses))
-		} else {
-			b.Reply(m, selectRandomResponse(trumpResponses))
-		}
+		b.Reply(m, selectRandomResponse(trumpResponses))
 		return false
 	},
 }
