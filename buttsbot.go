@@ -5,6 +5,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/brekkjern/buttsbot/geminipreview"
 	"github.com/brekkjern/buttsbot/linkpreview"
 	"github.com/brekkjern/buttsbot/regextriggers"
 
@@ -76,6 +77,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.StallmanTrigger)
 	mybot.AddTrigger(regextriggers.TrumpTrigger)
 	mybot.AddTrigger(linkpreview.LinkPreviewTrigger)
+	mybot.AddTrigger(geminipreview.GeminiPreviewTrigger)
 	log.Println("Attempting to connect to IRC network...")
 	mybot.Run()
 }
