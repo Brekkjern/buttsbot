@@ -62,6 +62,7 @@ var GeminiPreviewTrigger = hbot.Trigger{
 			title = title + " - " + parsedUrl.Hostname()
 
 			b.Reply(m, title)
+			b.Reply(m, "https://portal.mozz.us/gemini/"+parsedUrl.Hostname()+parsedUrl.Path)
 		}
 		return false
 	},
