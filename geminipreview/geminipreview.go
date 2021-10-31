@@ -74,11 +74,11 @@ func fetchGemini(url url.URL) string {
 		lgr.Info("Failed to fetch gemini site", "error", err, "url", url.String())
 		return ""
 	}
+	defer resp.Body.Close()
 	if resp.Status != 20 {
 		lgr.Info("Invalid status for gemini site", "status", resp.Status, "url", url.String())
 		return ""
 	}
-	defer resp.Body.Close()
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		lgr.Info("Failed to read data from connection", "error", err, "url", url.String())
@@ -93,8 +93,8 @@ func fetchGemini(url url.URL) string {
 func getFavicon(url url.URL) string {
 	url.Path = "/favicon.txt"
 	resp := fetchGemini(url)
-	if len(resp) <= 1 {
-		return resp[0:1]
+	if len(resp) >= 2 {
+		return string([]rune(resp)[:1])
 	}
 	return ""
 }
