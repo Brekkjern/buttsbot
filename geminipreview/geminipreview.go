@@ -19,7 +19,7 @@ var maxTitleLength = 140
 var client = &gemini.Client{}
 var ctx = context.Background()
 
-var geminRegex = regexp.MustCompile(`(?mi)gemini://.*\.(?:gmi|gemini|gmni)`)
+var geminRegex = regexp.MustCompile(`(?mi)gemini://.*\s`)
 var titleRegex = regexp.MustCompile(`(?mi)^# (.*)$`)
 
 var GeminiPreviewTrigger = hbot.Trigger{
