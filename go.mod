@@ -9,6 +9,6 @@ require (
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/whyrusleeping/hellabot v0.0.0-20210911174225-a7171d1b12f2
-	golang.org/x/sys v0.0.0-20210910150752-751e447fb3d0 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	gopkg.in/inconshreveable/log15.v2 v2.0.0-20200109203555-b30bc20e4fd1
 )
