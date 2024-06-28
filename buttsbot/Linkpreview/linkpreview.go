@@ -1,4 +1,4 @@
-package linkpreview
+package Linkpreview
 
 import (
 	"html"

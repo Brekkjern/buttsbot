@@ -1,13 +1,13 @@
 package main
 
 import (
+	geminipreview "buttsbot/buttsbot/Geminipreview"
+	linkpreview "buttsbot/buttsbot/Linkpreview"
+	regextriggers "buttsbot/buttsbot/Regextriggers"
+
 	"flag"
 	"log"
 	"strings"
-
-	"github.com/brekkjern/buttsbot/geminipreview"
-	"github.com/brekkjern/buttsbot/linkpreview"
-	"github.com/brekkjern/buttsbot/regextriggers"
 
 	hbot "github.com/whyrusleeping/hellabot"
 

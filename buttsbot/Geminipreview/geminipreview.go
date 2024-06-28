@@ -1,4 +1,4 @@
-package geminipreview
+package Geminipreview
 
 import (
 	"context"
