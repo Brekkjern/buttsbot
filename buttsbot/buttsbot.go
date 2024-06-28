@@ -1,12 +1,11 @@
 package main
 
 import (
+	config "buttsbot/buttsbot/Config"
 	geminipreview "buttsbot/buttsbot/Geminipreview"
 	linkpreview "buttsbot/buttsbot/Linkpreview"
 	regextriggers "buttsbot/buttsbot/Regextriggers"
 
-	"flag"
-	"log"
 	"strings"
 
 	hbot "github.com/whyrusleeping/hellabot"
@@ -15,50 +14,47 @@ import (
 )
 
 func main() {
-	logHandler := logger.LvlFilterHandler(logger.LvlInfo, logger.StdoutHandler)
-	log.Println("Initializing buttsbot...")
+	cfg, err := config.LoadConfig()
 
-	nick := flag.String("nick", "buttsbot", "IRC nickname")
-	connectionString := flag.String("server", "", "Connection string to IRC network")
-	channels := flag.String("channels", "", "IRC channels to connect to.")
-	twitterAPIToken := flag.String("twittertoken", "", "Twitter API bearer token")
-	var password string
-	flag.StringVar(&password, "password", "", "Password for nickserv")
-	ssl := flag.Bool("ssl", false, "Enable SSL for connection")
-	flag.Parse()
+	loglvl, err := logger.LvlFromString(cfg.Loglevel)
+	log := logger.New()
+	logHandler := logger.LvlFilterHandler(loglvl, logger.StdoutHandler)
+	log.SetHandler(logHandler)
 
-	linkpreview.TwitterAPIToken = *twitterAPIToken
+	log.Info("Initializing buttsbot...")
 
-	channelList := strings.Split(*channels, ":")
+	linkpreview.TwitterAPIToken = cfg.TwitterAPIToken
+
+	channelList := strings.Split(cfg.Channels, ":")
 	options := func(bot *hbot.Bot) {
 		bot.Channels = channelList
-		if password != "" {
+		if cfg.NickservPass != "" {
 			bot.SASL = true
-			bot.Password = password
+			bot.Password = cfg.NickservPass
 		}
-		bot.SSL = *ssl
+		bot.SSL = cfg.IrcUseSSL
 		bot.HijackSession = false
 	}
-	log.Println("Initializing bot system...")
-	mybot, err := hbot.NewBot(*connectionString, *nick, options)
+	log.Info("Initializing bot system...")
+	mybot, err := hbot.NewBot(cfg.IrcServer, cfg.Nick, options)
 	if err != nil {
 		panic(err)
 	}
 
 	mybot.Logger.SetHandler(logHandler)
-	log.Println("Adding triggers...")
+	log.Info("Adding triggers...")
 
-	var messageLogger = hbot.Trigger{
+	var debugMessageLogger = hbot.Trigger{
 		Condition: func(b *hbot.Bot, m *hbot.Message) bool {
 			return m.To == b.Nick
 		},
 		Action: func(b *hbot.Bot, m *hbot.Message) bool {
-			log.Println("Message to bot:", "From", m.From, "Content", m.Content)
+			log.Debug("Message to bot:", "From", m.From, "Content", m.Content)
 			return false
 		},
 	}
 
-	mybot.AddTrigger(messageLogger)
+	mybot.AddTrigger(debugMessageLogger)
 
 	mybot.AddTrigger(regextriggers.BigOTrigger)
 	mybot.AddTrigger(regextriggers.ButtcoinTrigger)
@@ -78,6 +74,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.TrumpTrigger)
 	mybot.AddTrigger(linkpreview.LinkPreviewTrigger)
 	mybot.AddTrigger(geminipreview.GeminiPreviewTrigger)
-	log.Println("Attempting to connect to IRC network...")
+
+	log.Info("Attempting to connect to IRC network...")
 	mybot.Run()
 }
