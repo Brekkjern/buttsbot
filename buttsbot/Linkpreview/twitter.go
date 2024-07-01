@@ -24,6 +24,10 @@ var TwitterAPIToken string
 var twitterRegex = regexp.MustCompile(`(?mi)(\w+)/status/(\d+)`)
 
 func previewTwitterLink(loc *url.URL) (string, error) {
+	return "Please pay Elon Musk $42,000 to preview this Twatter link.", nil
+}
+
+func previewTwitterLinkOld(loc *url.URL) (string, error) {
 	var preview = "Twitter - "
 	if rand.Intn(4) == 1 {
 		preview = "Twatter - "

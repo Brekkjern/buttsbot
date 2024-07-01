@@ -1,13 +1,15 @@
 package Linkpreview
 
 import (
-	"html"
-	"io/ioutil"
+	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"regexp"
-	"strings"
 	"time"
+
+	"github.com/PuerkitoBio/goquery"
+	"golang.org/x/exp/slices"
 
 	hbot "github.com/whyrusleeping/hellabot"
 
@@ -16,6 +18,15 @@ import (
 
 var lgr = logger.Root()
 var maxTitleLength = 140
+
+var twitterDomains = []string{
+	"fxtwitter.com",
+	"twitter.com",
+	"mobile.twitter.com",
+	"www.x.com",
+	"x.com",
+	"mobile.x.com",
+}
 
 var linkPreviewRegex = regexp.MustCompile(`(?mi)https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`)
 var LinkPreviewTrigger = hbot.Trigger{
@@ -38,13 +49,12 @@ var LinkPreviewTrigger = hbot.Trigger{
 				break
 			}
 			parsedUrl, _ := url.Parse(r[p])
-			if parsedUrl.Host == "twitter.com" || parsedUrl.Host == "mobile.twitter.com" {
+			if slices.Contains(twitterDomains, parsedUrl.Host) {
 				reply, err := previewTwitterLink(parsedUrl)
-				if err == nil {
-					b.Reply(m, reply)
-				} else {
+				if err != nil {
 					lgr.Error("previewTwitterLink failed", "url", r[p], "error", err)
 				}
+				b.Reply(m, reply)
 				return false
 			}
 			if isYoutube(parsedUrl) {
@@ -57,11 +67,10 @@ var LinkPreviewTrigger = hbot.Trigger{
 				return false
 			}
 			pageData := fetchContents(r[p])
-			if len(pageData) == 0 {
-				lgr.Debug("No content from url", "url", r[p])
-				return false
+			title, err := getTitle(pageData)
+			if err != nil {
+				lgr.Error("Error with page body", "url", r[p], "error", err)
 			}
-			title := getTitle(pageData)
 			if len(title) >= 1 {
 				lgr.Info("Found title for URL", "title", title, "url", r[p])
 				b.Reply(m, title)
@@ -73,63 +82,43 @@ var LinkPreviewTrigger = hbot.Trigger{
 	},
 }
 
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-
-func fetchContents(url string) string {
+func fetchContents(url string) io.ReadCloser {
 	client := &http.Client{
-		Timeout: 7 * time.Second,
+		Transport: &http.Transport{
+			Dial: (&net.Dialer{
+				Timeout:   2 * time.Second,
+				KeepAlive: 2 * time.Second,
+			}).Dial,
+			TLSHandshakeTimeout:   2 * time.Second,
+			ResponseHeaderTimeout: 2 * time.Second,
+		},
+		Timeout: 5 * time.Second,
 	}
 
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		lgr.Error("Failed to create new request", "error", err)
-		return ""
+		return nil
 	}
+
 	request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Buttsbot link-previews")
+	request.Header.Set("Range", "bytes=0-12000")
 
 	resp, err := client.Do(request)
 	if err != nil {
 		lgr.Info("Failed to fetch website", "error", err)
-		return ""
+		return nil
 	}
-	defer resp.Body.Close()
-
-	respBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		lgr.Info("Failed to read response body", "error", err)
-		return ""
-	}
-	pageContent := string(respBytes)
-
-	return pageContent
+	return resp.Body
 }
 
-func getTitle(s string) string {
-	titleStartIndex := strings.Index(s, "<title>")
-	if titleStartIndex == -1 {
-		return ""
-	}
-	// Skip to end of title declaration
-	titleStartIndex += 7
-
-	titleEndIndex := strings.Index(s, "</title>")
-	if titleEndIndex == -1 {
-		return ""
+func getTitle(r io.ReadCloser) (string, error) {
+	doc, err := goquery.NewDocumentFromReader(r)
+	defer r.Close()
+	if err != nil {
+		return "", err
 	}
 
-	title := s[titleStartIndex:titleEndIndex]
-	title = html.UnescapeString(title)
-	title = strings.Replace(title, "\n", " - ", -1)
-	title = strings.TrimSpace(title)
-
-	if len(title) > maxTitleLength {
-		title = title[:maxTitleLength] + "..."
-	}
-
-	return title
+	t := doc.Find("title").First().Contents().Text()
+	return t, nil
 }

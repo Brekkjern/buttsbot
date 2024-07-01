@@ -22,6 +22,7 @@ func main() {
 	log.SetHandler(logHandler)
 
 	log.Info("Initializing buttsbot...")
+	log.Info("Config:", "cfg", cfg)
 
 	linkpreview.TwitterAPIToken = cfg.TwitterAPIToken
 
@@ -44,17 +45,17 @@ func main() {
 	mybot.Logger.SetHandler(logHandler)
 	log.Info("Adding triggers...")
 
-	var debugMessageLogger = hbot.Trigger{
-		Condition: func(b *hbot.Bot, m *hbot.Message) bool {
-			return m.To == b.Nick
-		},
-		Action: func(b *hbot.Bot, m *hbot.Message) bool {
-			log.Debug("Message to bot:", "From", m.From, "Content", m.Content)
-			return false
-		},
+	if loglvl == logger.LvlDebug {
+		mybot.AddTrigger(hbot.Trigger{
+			Condition: func(b *hbot.Bot, m *hbot.Message) bool {
+				return m.To == b.Nick
+			},
+			Action: func(b *hbot.Bot, m *hbot.Message) bool {
+				log.Debug("Message to bot:", "From", m.From, "Content", m.Content)
+				return false
+			},
+		})
 	}
-
-	mybot.AddTrigger(debugMessageLogger)
 
 	mybot.AddTrigger(regextriggers.BigOTrigger)
 	mybot.AddTrigger(regextriggers.ButtcoinTrigger)
