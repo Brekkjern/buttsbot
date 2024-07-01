@@ -18,7 +18,7 @@ jobs:
           go-version: "1.22"
 
       - name: Build
-        run: go build -v ./...
+        run: go build -o dist/ -v ./...
 
       - name: Test
         run: go test -v ./...
@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: buttsbot
-          path: buttsbot/buttsbot
+          path: dist/buttsbot
