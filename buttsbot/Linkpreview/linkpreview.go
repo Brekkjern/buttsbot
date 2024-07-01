@@ -1,6 +1,7 @@
 package Linkpreview
 
 import (
+	"buttsbot/buttsbot/Utils"
 	"io"
 	"net"
 	"net/http"
@@ -120,5 +121,5 @@ func getTitle(r io.ReadCloser) (string, error) {
 	}
 
 	t := doc.Find("title").First().Contents().Text()
-	return t, nil
+	return Utils.EllipticalTruncate(t, maxTitleLength), nil
 }
