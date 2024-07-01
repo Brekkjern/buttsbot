@@ -6,6 +6,7 @@ import (
 	linkpreview "buttsbot/buttsbot/Linkpreview"
 	regextriggers "buttsbot/buttsbot/Regextriggers"
 	"flag"
+	"fmt"
 
 	"strings"
 
@@ -16,6 +17,9 @@ import (
 
 func main() {
 	configPath := flag.String("c", "/etc/buttsbot/", "Path to configuration file directory")
+	flag.Parse()
+
+	fmt.Println("Loading configuration from directory: ", configPath)
 	cfg, err := config.LoadConfig(*configPath)
 	if err != nil {
 		panic("Loading config failed")
