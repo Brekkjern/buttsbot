@@ -16,11 +16,12 @@ import (
 )
 
 func main() {
-	configPath := flag.String("c", "/etc/buttsbot/", "Path to configuration file directory")
+	var configPath string
+	flag.StringVar(&configPath, "config", "/etc/buttsbot/", "Path to configuration file directory")
 	flag.Parse()
 
 	fmt.Println("Loading configuration from directory: ", configPath)
-	cfg, err := config.LoadConfig(*configPath)
+	cfg, err := config.LoadConfig(configPath)
 	if err != nil {
 		panic("Loading config failed")
 	}
