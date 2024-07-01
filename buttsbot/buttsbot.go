@@ -5,6 +5,7 @@ import (
 	geminipreview "buttsbot/buttsbot/Geminipreview"
 	linkpreview "buttsbot/buttsbot/Linkpreview"
 	regextriggers "buttsbot/buttsbot/Regextriggers"
+	"flag"
 
 	"strings"
 
@@ -14,9 +15,16 @@ import (
 )
 
 func main() {
-	cfg, err := config.LoadConfig()
+	configPath := flag.String("c", "/etc/buttsbot/", "Path to configuration file directory")
+	cfg, err := config.LoadConfig(*configPath)
+	if err != nil {
+		panic("Loading config failed")
+	}
 
 	loglvl, err := logger.LvlFromString(cfg.Loglevel)
+	if err != nil {
+		panic("Getting loglevel failed")
+	}
 	log := logger.New()
 	logHandler := logger.LvlFilterHandler(loglvl, logger.StdoutHandler)
 	log.SetHandler(logHandler)

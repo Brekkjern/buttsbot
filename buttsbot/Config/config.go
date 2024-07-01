@@ -16,8 +16,8 @@ type Config struct {
 	TwitterAPIToken string
 }
 
-func LoadConfig() (config Config, err error) {
-	viper.AddConfigPath(".")
+func LoadConfig(path string) (config Config, err error) {
+	viper.AddConfigPath(path)
 	viper.SetConfigName("buttsbot")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()
