@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: buttsbot
-          path: buttsbot
+          path: buttsbot/buttsbot
