@@ -24,7 +24,11 @@ func previewYoutubeLink(loc *url.URL) (string, error) {
 	if !isYoutube(loc) {
 		return "", errors.New("previewYoutubeLink() called for non-youtube link")
 	}
-	pageData := fetchContents(loc.String())
+	pageData, err := fetchContents(loc.String())
+	if err != nil {
+		lgr.Info("Failed to fetch page contentx", "url", loc, "error", err)
+		return "", err
+	}
 	title, err := getTitle(pageData)
 	if err != nil {
 		lgr.Error("Failed to get title from youtube", "url", loc, "error", err)
