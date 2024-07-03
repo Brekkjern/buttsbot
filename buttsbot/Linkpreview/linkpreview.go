@@ -68,6 +68,9 @@ var LinkPreviewTrigger = hbot.Trigger{
 				return false
 			}
 			pageData := fetchContents(r[p])
+			if pageData == nil {
+				return false
+			}
 			title, err := getTitle(pageData)
 			if err != nil {
 				lgr.Error("Error with page body", "url", r[p], "error", err)
