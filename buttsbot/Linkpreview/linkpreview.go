@@ -67,8 +67,9 @@ var LinkPreviewTrigger = hbot.Trigger{
 				}
 				return false
 			}
-			pageData := fetchContents(r[p])
-			if pageData == nil {
+			pageData, err := fetchContents(r[p])
+			if err != nil {
+				lgr.Info("Failed to fetch website contents.", "url", r[p], "error", err)
 				return false
 			}
 			title, err := getTitle(pageData)
@@ -87,7 +88,7 @@ var LinkPreviewTrigger = hbot.Trigger{
 	},
 }
 
-func fetchContents(url string) io.ReadCloser {
+func fetchContents(url string) (io.ReadCloser, error) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			Dial: (&net.Dialer{
@@ -103,7 +104,7 @@ func fetchContents(url string) io.ReadCloser {
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		lgr.Error("Failed to create new request", "error", err)
-		return nil
+		return nil, err
 	}
 
 	request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Buttsbot link-previews")
@@ -112,9 +113,9 @@ func fetchContents(url string) io.ReadCloser {
 	resp, err := client.Do(request)
 	if err != nil {
 		lgr.Info("Failed to fetch website", "error", err)
-		return nil
+		return nil, err
 	}
-	return resp.Body
+	return resp.Body, nil
 }
 
 func getTitle(r io.ReadCloser) (string, error) {
