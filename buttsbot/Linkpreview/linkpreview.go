@@ -71,6 +71,7 @@ var LinkPreviewTrigger = hbot.Trigger{
 			title, err := getTitle(pageData)
 			if err != nil {
 				lgr.Error("Error with page body", "url", r[p], "error", err)
+				return false
 			}
 			if len(title) >= 1 {
 				lgr.Info("Found title for URL", "title", title, "url", r[p])
