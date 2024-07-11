@@ -35,7 +35,7 @@ func main() {
 	log.SetHandler(logHandler)
 
 	log.Info("Initializing buttsbot...")
-	log.Info("Config:", "cfg", cfg)
+	log.Debug("Config:", "cfg", cfg)
 
 	linkpreview.TwitterAPIToken = cfg.TwitterAPIToken
 
@@ -71,6 +71,7 @@ func main() {
 	}
 
 	mybot.AddTrigger(regextriggers.BigOTrigger)
+	mybot.AddTrigger(&regextriggers.BikeshedTrigger)
 	mybot.AddTrigger(regextriggers.ButtcoinTrigger)
 	mybot.AddTrigger(regextriggers.ClawTrigger)
 	mybot.AddTrigger(regextriggers.CmdTrigger)
