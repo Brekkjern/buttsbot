@@ -1,4 +1,4 @@
-package Linkpreview
+package linkpreview
 
 import (
 	"buttsbot/buttsbot/utils"

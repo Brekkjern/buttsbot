@@ -1,10 +1,10 @@
 package main
 
 import (
-	config "buttsbot/buttsbot/Config"
-	geminipreview "buttsbot/buttsbot/Geminipreview"
-	linkpreview "buttsbot/buttsbot/Linkpreview"
-	regextriggers "buttsbot/buttsbot/Regextriggers"
+	"buttsbot/buttsbot/config"
+	"buttsbot/buttsbot/geminipreview"
+	"buttsbot/buttsbot/linkpreview"
+	"buttsbot/buttsbot/regextriggers"
 	"flag"
 	"fmt"
 
@@ -71,7 +71,7 @@ func main() {
 	}
 
 	mybot.AddTrigger(regextriggers.BigOTrigger)
-	mybot.AddTrigger(&regextriggers.BikeshedTrigger)
+	mybot.AddTrigger(regextriggers.BikeshedTrigger)
 	mybot.AddTrigger(regextriggers.ButtcoinTrigger)
 	mybot.AddTrigger(regextriggers.ClawTrigger)
 	mybot.AddTrigger(regextriggers.CmdTrigger)

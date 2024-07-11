@@ -1,4 +1,4 @@
-package Config
+package config
 
 import (
 	viper "github.com/spf13/viper"
