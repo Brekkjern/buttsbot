@@ -1,0 +1,16 @@
+# /etc/systemd/system/buttsbot.service
+[Unit]
+Description=Buttsbot IRC bot
+After=network.target
+
+[Service]
+Type=simple
+User=buttsbot
+DynamicUser=yes
+LoadCredential=buttsbot.env:/etc/buttsbot/buttsbot.env
+ExecStart=/opt/buttsbot/buttsbot -config ${CREDENTIALS_DIRECTORY}
+Restart=always
+RestartSec=3s
+
+[Install]
+WantedBy=multi-user.target
