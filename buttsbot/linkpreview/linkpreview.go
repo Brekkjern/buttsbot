@@ -78,8 +78,9 @@ var LinkPreviewTrigger = hbot.Trigger{
 				return false
 			}
 			if len(title) >= 1 {
-				lgr.Info("Found title for URL", "title", title, "url", r[p])
-				b.Reply(m, title)
+				t = strings.TrimSpace(title)
+				lgr.Info("Found title for URL", "title", t, "url", r[p])
+				b.Reply(m, t)
 			} else {
 				lgr.Info("Found no title for URL", "url", r[p])
 			}
