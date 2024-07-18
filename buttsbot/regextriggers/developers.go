@@ -10,7 +10,7 @@ var developersRegex = regexp.MustCompile("(?mi)devs|developers|Ballmer")
 
 var DevelopersTrigger = hbot.Trigger{
 	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
-		return standardizedRegexTrigger(b, m, developersRegex, 7)
+		return standardizedRegexTrigger(b, m, developersRegex, 10)
 	},
 	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, "👏 developers 👏 developers 👏 developers 👏")
