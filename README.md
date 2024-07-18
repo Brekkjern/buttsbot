@@ -1,5 +1,9 @@
 # Buttsbot
 
+The builds are currently: [![Go](https://github.com/Brekkjern/buttsbot/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/Brekkjern/buttsbot/actions/workflows/go.yml)
+
+It has been `0` days since last the failed build.
+
 The pinnacle of human engineering in the field of IRC bots.
 
 ## Usage
