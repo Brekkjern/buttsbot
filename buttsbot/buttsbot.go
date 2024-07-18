@@ -82,6 +82,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.FreenodeTrigger)
 	mybot.AddTrigger(regextriggers.HarmfulTrigger)
 	mybot.AddTrigger(regextriggers.HlangTrigger)
+	mybot.AddTrigger(regextriggers.MoonlanderTrigger)
 	mybot.AddTrigger(regextriggers.NPMTrigger)
 	mybot.AddTrigger(regextriggers.PosixTrigger)
 	mybot.AddTrigger(regextriggers.RiirTrigger)
