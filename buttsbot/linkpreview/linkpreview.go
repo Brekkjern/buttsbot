@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"regexp"
 	"time"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"golang.org/x/exp/slices"
@@ -78,7 +79,7 @@ var LinkPreviewTrigger = hbot.Trigger{
 				return false
 			}
 			if len(title) >= 1 {
-				t = strings.TrimSpace(title)
+				t := strings.TrimSpace(title)
 				lgr.Info("Found title for URL", "title", t, "url", r[p])
 				b.Reply(m, t)
 			} else {
