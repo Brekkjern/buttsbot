@@ -8,14 +8,20 @@ The pinnacle of human engineering in the field of IRC bots.
 
 ## Usage
 
+1. Create a configuration file at `/etc/buttsbot/buttsbot.env`
+
 ```env
 LOGLEVEL=INFO
 NICK=mybuttsbot
 IRCSERVER=irc.libera.chat:6697
 IRCUSESSL=true
-CHANNELS=##crustaceans   # colon separated list of channels
+CHANNELS="##crustaceans:#testbutt"   # colon separated list of channels
 NICKSERVPASS=asdfghj
 TWITTERAPITOKEN=asdfghj
 ```
 
-Then run that shit...
+2. Then run that shit...
+
+```sh
+$ go run buttsbot.go
+```
