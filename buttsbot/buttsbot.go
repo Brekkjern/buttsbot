@@ -84,6 +84,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.HlangTrigger)
 	mybot.AddTrigger(regextriggers.MoonlanderTrigger)
 	mybot.AddTrigger(regextriggers.NPMTrigger)
+	mybot.AddTrigger(regextriggers.NumpyTrigger)
 	mybot.AddTrigger(regextriggers.PosixTrigger)
 	mybot.AddTrigger(regextriggers.RiirTrigger)
 	mybot.AddTrigger(regextriggers.StallmanTrigger)
