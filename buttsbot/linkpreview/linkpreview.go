@@ -6,9 +6,8 @@ import (
 	"net"
 	"net/http"
 	"net/url"
-	"regexp"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"golang.org/x/exp/slices"
@@ -16,10 +15,16 @@ import (
 	hbot "github.com/whyrusleeping/hellabot"
 
 	logger "gopkg.in/inconshreveable/log15.v2"
+
+	"mvdan.cc/xurls/v2"
+)
+
+const (
+	maxTitleLength  = 140
+	maxLinksToFetch = 2
 )
 
 var lgr = logger.Root()
-var maxTitleLength = 140
 
 var twitterDomains = []string{
 	"fxtwitter.com",
@@ -30,64 +35,83 @@ var twitterDomains = []string{
 	"mobile.x.com",
 }
 
-var linkPreviewRegex = regexp.MustCompile(`(?mi)https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`)
-var LinkPreviewTrigger = hbot.Trigger{
-	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
-		if m.Command == "PART" || m.Command == "QUIT" {
-			return false
-		}
-		if m.From == b.Nick || m.To == b.Nick {
-			return false
-		}
+var rx = xurls.Strict()
 
-		return linkPreviewRegex.MatchString(m.Content)
-
-	},
-	Action: func(b *hbot.Bot, m *hbot.Message) bool {
-		r := linkPreviewRegex.FindAllString(m.Content, -1)
-		lgr.Debug("Found links for linkpreview", "url", r)
-		for p := range r {
-			if p > 2 {
-				break
-			}
-			parsedUrl, _ := url.Parse(r[p])
-			if slices.Contains(twitterDomains, parsedUrl.Host) {
-				reply, err := previewTwitterLink(parsedUrl)
-				if err != nil {
-					lgr.Error("previewTwitterLink failed", "url", r[p], "error", err)
-				}
-				b.Reply(m, reply)
-				return false
-			}
-			if isYoutube(parsedUrl) {
-				reply, err := previewYoutubeLink(parsedUrl)
-				if err == nil {
-					b.Reply(m, reply)
-				} else {
-					lgr.Error("previewYoutubeLink failed", "url", r[p], "error", err)
-				}
-				return false
-			}
-			pageData, err := fetchContents(r[p])
-			if err != nil {
-				lgr.Info("Failed to fetch website contents.", "url", r[p], "error", err)
-				return false
-			}
-			title, err := getTitle(pageData)
-			if err != nil {
-				lgr.Error("Error with page body", "url", r[p], "error", err)
-				return false
-			}
-			if len(title) >= 1 {
-				t := strings.TrimSpace(title)
-				lgr.Info("Found title for URL", "title", t, "url", r[p])
-				b.Reply(m, t)
-			} else {
-				lgr.Info("Found no title for URL", "url", r[p])
-			}
-		}
+func linkPreviewCondition(b *hbot.Bot, m *hbot.Message) bool {
+	if m.Command == "PART" || m.Command == "QUIT" {
 		return false
-	},
+	}
+	if m.From == b.Nick || m.To == b.Nick {
+		return false
+	}
+
+	urls := rx.FindAllString(m.Content, -1)
+	if urls == nil {
+		return false
+	}
+
+	for i := range urls {
+		url := urls[i]
+		if strings.HasPrefix(url, "http") {
+			return true
+		}
+	}
+
+	return false
+}
+
+func linkPreviewAction(b *hbot.Bot, m *hbot.Message) bool {
+	r := rx.FindAllString(m.Content, -1)
+	lgr.Debug("Found links for linkpreview", "url", r)
+
+	for p := range r {
+		if p > maxLinksToFetch {
+			break
+		}
+		pu, _ := url.Parse(r[p])
+
+		var reply = ""
+		var err error = nil
+
+		switch site := getSite(pu); site {
+		case YouTube:
+			reply, err = previewYoutubeLink(pu)
+		case Twitter:
+			reply, err = previewTwitterLink(pu)
+		case DefaultSite:
+			reply, err = previewDefaultLink(pu)
+		}
+		if err != nil {
+			lgr.Debug("Failed to fetch title", "url", r[p], "err", err)
+		}
+
+		b.Reply(m, reply)
+	}
+
+	return false
+}
+
+type Site int
+
+const (
+	YouTube Site = iota
+	Twitter
+	DefaultSite
+)
+
+func getSite(u *url.URL) Site {
+	if isYoutube(u) {
+		return YouTube
+	}
+	if slices.Contains(twitterDomains, u.Host) {
+		return Twitter
+	}
+	return DefaultSite
+}
+
+var LinkPreviewTrigger = hbot.Trigger{
+	Condition: linkPreviewCondition,
+	Action:    linkPreviewAction,
 }
 
 func fetchContents(url string) (io.ReadCloser, error) {
@@ -128,5 +152,6 @@ func getTitle(r io.ReadCloser) (string, error) {
 	}
 
 	t := doc.Find("title").First().Contents().Text()
+	t = formatTitle(t)
 	return utils.EllipticalTruncate(t, maxTitleLength), nil
 }

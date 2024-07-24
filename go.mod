@@ -39,4 +39,5 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/sorcix/irc.v2 v2.0.0-20200812151606-3f15758ea8c7 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	mvdan.cc/xurls/v2 v2.5.0 // indirect
 )
