@@ -17,17 +17,14 @@ var trumpResponses = []string{
 	"Hair Hitler having a bad hair day today?",
 	"Don't say his name! It's He-Who-Must-Not-Be-Named around here!",
 	"🍊🤵👎",
-}
-var trumpTwitterResponses = []string{
 	"What's Adolf Twitler been up to now?",
 	"Boss Tweet is at it again, huh?",
 	"Bumbledore tweeting again?",
-	"News from the porcelain office?",
 }
 
 var TrumpTrigger = hbot.Trigger{
 	Condition: func(b *hbot.Bot, m *hbot.Message) bool {
-		return standardizedRegexTrigger(b, m, trumpRegex, 25)
+		return standardizedRegexTrigger(b, m, trumpRegex, 50)
 	},
 	Action: func(b *hbot.Bot, m *hbot.Message) bool {
 		b.Reply(m, selectRandomResponse(trumpResponses))
