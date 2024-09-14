@@ -91,6 +91,7 @@ func main() {
 	mybot.AddTrigger(regextriggers.RiirTrigger)
 	mybot.AddTrigger(regextriggers.StallmanTrigger)
 	mybot.AddTrigger(regextriggers.TrumpTrigger)
+	mybot.AddTrigger(regextriggers.WankpanzerTrigger)
 	mybot.AddTrigger(linkpreview.LinkPreviewTrigger)
 	mybot.AddTrigger(geminipreview.GeminiPreviewTrigger)
 
