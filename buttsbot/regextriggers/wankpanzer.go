@@ -8,7 +8,7 @@ import (
 var wankpanzers = []string{
 	"That car is such a clustertruck...",
 	"Is the Wank Panzer falling apart again?",
-	"When the Deplorean hits 88 mph you're gonna see some serious shit!",
+	"If this Deplorean hits 88 mph you're gonna see some serious shit!",
 	"Isn't it called a TP Cruiser? Like 🧻?",
 	"It's the Tesla Model Why",
 }
