@@ -70,6 +70,7 @@ func main() {
 		})
 	}
 
+	mybot.AddTrigger(regextriggers.AnywayTrigger)
 	mybot.AddTrigger(regextriggers.BigOTrigger)
 	mybot.AddTrigger(regextriggers.BikeshedTrigger)
 	mybot.AddTrigger(regextriggers.ButtcoinTrigger)
