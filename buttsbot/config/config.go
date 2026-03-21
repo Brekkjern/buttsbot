@@ -13,7 +13,6 @@ type Config struct {
 	Channels     string
 	NickservPass string
 
-	TwitterAPIToken string
 }
 
 func LoadConfig(path string) (config Config, err error) {
@@ -26,8 +25,6 @@ func LoadConfig(path string) (config Config, err error) {
 	viper.SetDefault("Nick", "buttsbot")
 	viper.SetDefault("IrcUseSSL", false)
 	viper.SetDefault("NickservPass", "")
-	viper.SetDefault("TwitterAPIToken", "")
-
 	err = viper.ReadInConfig()
 	if err != nil {
 		return

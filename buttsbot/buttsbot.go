@@ -37,8 +37,6 @@ func main() {
 	log.Info("Initializing buttsbot...")
 	log.Debug("Config:", "cfg", cfg)
 
-	linkpreview.TwitterAPIToken = cfg.TwitterAPIToken
-
 	channelList := strings.Split(cfg.Channels, ":")
 	options := func(bot *hbot.Bot) {
 		bot.Channels = channelList
