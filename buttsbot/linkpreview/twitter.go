@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"html"
-	"io/ioutil"
+	"io"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -66,7 +66,7 @@ func previewTwitterLinkOld(loc *url.URL) (string, error) {
 	}
 
 	defer resp.Body.Close()
-	pdata, err := ioutil.ReadAll(resp.Body)
+	pdata, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", errors.New("previewTwitterLink() got no valid data from API")
 	}
