@@ -29,12 +29,18 @@ jobs:
           name: buttsbot
           path: dist/buttsbot
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Update latest tag
+        if: github.event_name == 'push'
+        run: git tag -f latest && git push -f origin latest
+
+      - name: Release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          tag_name: latest
           prerelease: true
-          title: "Development Build"
+          name: "Development Build"
           files: |
             LICENSE.md
             dist/buttsbot
