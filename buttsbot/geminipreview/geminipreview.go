@@ -2,7 +2,7 @@ package geminipreview
 
 import (
 	"context"
-	"io/ioutil"
+	"io"
 	"net/url"
 	"regexp"
 
@@ -79,7 +79,7 @@ func fetchGemini(url url.URL) string {
 		lgr.Info("Invalid status for gemini site", "status", resp.Status, "url", url.String())
 		return ""
 	}
-	respBody, err := ioutil.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		lgr.Info("Failed to read data from connection", "error", err, "url", url.String())
 	}
