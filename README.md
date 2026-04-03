@@ -17,7 +17,6 @@ IRCSERVER=irc.libera.chat:6697
 IRCUSESSL=true
 CHANNELS="##crustaceans:#testbutt"   # colon separated list of channels
 NICKSERVPASS=asdfghj
-TWITTERAPITOKEN=asdfghj
 ```
 
 2. Then run that shit...
