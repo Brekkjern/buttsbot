@@ -77,7 +77,7 @@ func linkPreviewAction(b *hbot.Bot, m *hbot.Message) bool {
 		case YouTube:
 			reply, err = previewYoutubeLink(pu)
 		case Twitter:
-			reply, err = previewTwitterLink(pu)
+			reply, err = previewTwitterLink()
 		case DefaultSite:
 			reply, err = previewDefaultLink(pu)
 		}
