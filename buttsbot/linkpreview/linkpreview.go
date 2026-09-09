@@ -68,10 +68,13 @@ func linkPreviewAction(b *hbot.Bot, m *hbot.Message) bool {
 		if p > maxLinksToFetch {
 			break
 		}
-		pu, _ := url.Parse(r[p])
+		pu, err := url.Parse(r[p])
+		if err != nil {
+			lgr.Debug("Failed to parse url", "url", r[p], "err", err)
+			continue
+		}
 
 		var reply = ""
-		var err error = nil
 
 		switch site := getSite(pu); site {
 		case YouTube:
