@@ -6,7 +6,7 @@ import (
 
 func previewTwitterLink(loc *url.URL) (string, error) {
 	xcancel := *loc
-	xcancel.Host = "xcancel.com"
+	xcancel.Host = "xxcancel.com"
 	xcancel.Scheme = "https"
 	return xcancel.String(), nil
 }
